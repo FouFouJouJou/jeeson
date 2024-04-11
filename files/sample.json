@@ -1,5 +1,5 @@
 {
-    "kind": "youtube#searchListResponse",
+    "kind": false,
     "etag": "q4ibjmYp1KA3RqMF4jFLl6PBwOg",
     "xxxx": 20,
     "nextPageToken": "CAUQAA",

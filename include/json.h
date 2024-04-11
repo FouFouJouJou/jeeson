@@ -9,10 +9,15 @@ enum json_value_type_t {
   ,J_ARRAY
   ,J_STRING
   ,J_INT
+  ,J_BOOL
 };
 
 struct json_int_t {
   int value;
+};
+
+struct json_bool_t {
+  bool boolean;
 };
 
 struct json_boolean_t {
@@ -46,6 +51,7 @@ void printf_json_value(struct json_value_t json_value, uint8_t level);
 struct json_int_t *create_json_int(int integet);
 struct json_string_t *create_json_string(char *string, size_t size);
 struct json_value_t *create_json_value(void *value, enum json_value_type_t type);
+struct json_bool_t *create_json_bool(bool boolean);
 void free_json_value(struct json_value_t *value);
 void free_json_array(struct json_array_t *array);
 void free_json_object(struct json_object_t *object);

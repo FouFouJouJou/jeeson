@@ -3,6 +3,8 @@
 
 char *token_type_to_string(enum token_type_t type) {
   switch(type) {
+    case BOOLEAN:
+      return "BOOLEAN";
     case STRING_LITERAL:
       return "STRING_LITERAL";
     case RIGHT_CURLY:

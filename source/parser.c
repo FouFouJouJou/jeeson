@@ -9,6 +9,8 @@
 struct json_value_t *parse_value(struct token_t ***tokens, size_t size) {
   struct token_t *token=YANK((*tokens));
   switch(token->type) {
+    case BOOLEAN:
+      return create_json_value((void*)create_json_bool(!strncmp(token->literal, "true", 4) ? true : false), J_BOOL);
     case STRING_LITERAL:
       return create_json_value((void*)create_json_string(token->literal, token->length), J_STRING);
     case NUMBER:

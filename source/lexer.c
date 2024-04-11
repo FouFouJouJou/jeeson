@@ -8,25 +8,12 @@
 struct token_t *literal_to_token(char *literal, size_t literal_size, enum token_type_t type) {
   struct token_t *token=malloc(sizeof(struct token_t));
   token->type=type;
-  switch(type) {
-    case STRING_LITERAL:
-      token->length=literal_size+2;
-      token->literal=malloc((literal_size+1)*sizeof(char));
-      token->literal=strncpy(token->literal, literal, literal_size);
-      token->literal[literal_size]='\0';
-      break;
-    case NUMBER:
-      token->literal=malloc((literal_size+1)*sizeof(char));
-      token->literal=strncpy(token->literal, literal, literal_size);
-      token->literal[literal_size]='\0';
-      token->length=strlen(token->literal);
-      break;
-    default:
-      token->literal=malloc((literal_size+1)*sizeof(char));
-      *(token->literal)=*literal;
-      token->type=type;
-      token->length=literal_size;
-      token->literal[literal_size]='\0';
+  token->literal=malloc((literal_size+1)*sizeof(char));
+  token->literal=strncpy(token->literal, literal, literal_size);
+  token->length=literal_size;
+  token->literal[literal_size]='\0';
+  if(type == STRING_LITERAL) {
+    token->length=literal_size+2;
   }
   return token;
 }
@@ -60,6 +47,21 @@ struct token_t *lex_symbol(char input) {
   out:
     return token;
 }
+
+struct token_t *lex_boolean(char *start) {
+  struct token_t *token=0;
+  char *false_string="false", *true_string="true";
+  char *boolean_string=0;
+  if(!strncmp(start, "false", 5)) 
+    boolean_string=false_string;
+  if(!strncmp(start, "true", 4)) 
+    boolean_string=true_string;
+  if(!boolean_string)
+    goto out;
+  token=literal_to_token(boolean_string, strlen(boolean_string), BOOLEAN);
+  out:
+    return token;
+}
 tokens_size_t lex(char *buffer, size_t buff_size, struct token_t ***tokens_p) {
   char *start=buffer, *delims=" \n\r\t";
   tokens_size_t total=0;
@@ -67,6 +69,7 @@ tokens_size_t lex(char *buffer, size_t buff_size, struct token_t ***tokens_p) {
     struct token_t *token=0;
     start+=strspn(start, delims);
     if((token=lex_symbol(*start)));
+    else if((token=lex_boolean(start)));
     else if((token=lex_string(start)));
     else if((token=lex_number(start)));
     if(!token) exit(160);

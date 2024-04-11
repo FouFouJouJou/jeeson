@@ -33,6 +33,13 @@ int get_int(struct json_object_t *object, char *key) {
   return VALUE_TO_INT(value);
 }
 
+bool get_bool(struct json_object_t *object, char *key) {
+  struct json_value_t *value=get(object, key);
+  assert(value != 0);
+  assert(value->type == J_BOOL);
+  return VALUE_TO_BOOL(value);
+}
+
 char *get_string(struct json_object_t *object, char *key) {
   struct json_value_t *value=get(object, key);
   assert(value != 0);
@@ -66,4 +73,12 @@ struct json_object_t *get_array_object_element(struct json_object_t *object, cha
   assert(idx < arr->size && idx >= 0);
   assert(arr->elements[idx]->type == J_OBJECT);
   return VALUE_TO_OBJECT(arr->elements[idx]);
+}
+
+
+struct json_array_t *get_array_array_element(struct json_object_t *object, char *key, uint8_t idx) {
+  struct json_array_t *arr=get_array(object, key);
+  assert(idx < arr->size && idx >= 0);
+  assert(arr->elements[idx]->type == J_ARRAY);
+  return VALUE_TO_ARRAY(arr->elements[idx]);
 }

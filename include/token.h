@@ -10,6 +10,7 @@ enum token_type_t {
   ,LEFT_CURLY
   ,RIGHT_BRACKET
   ,LEFT_BRACKET
+  ,BOOLEAN
   ,NUMBER
   ,QUOTES
   ,COMMA
