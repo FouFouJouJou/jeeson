@@ -17,6 +17,11 @@ enum token_type_t {
   ,COLON
   ,SPACE
   ,STRING_LITERAL
+  ,DOT
+  ,EXP_LOW
+  ,EXP_UP
+  ,PLUS
+  ,MINUS
   ,NOT_SUPPORTED
 };
 
@@ -28,6 +33,7 @@ struct token_t {
 
 enum token_type_t symbol_to_token_type(char literal);
 void printf_token(struct token_t token);
+void printf_tokens(struct token_t **tokens, size_t size, void (*printf_function)(struct token_t token));
 void free_token(struct token_t *token);
 
 #endif

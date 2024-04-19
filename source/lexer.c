@@ -28,7 +28,8 @@ struct token_t *lex_string(char *input) {
     return token;
 }
 
-struct token_t *lex_number(char *input) {
+struct token_t *lex_digits(char *input) {
+  if(*input == '0') exit(161);
   struct token_t *token=0;
   char *digits="0123456789", *start=input;
   size_t total=strspn(start, digits);
@@ -40,7 +41,7 @@ struct token_t *lex_number(char *input) {
 
 struct token_t *lex_symbol(char input) {
   struct token_t *token=0;
-  char *symbols=":,[]{}", *symbol;
+  char *symbols=":,[]{}+-.Ee", *symbol;
   if((symbol=strchr(symbols, input)) == 0) goto out;
   enum token_type_t type=symbol_to_token_type(*symbol);
   token=literal_to_token(symbol, 1, type);
@@ -71,7 +72,7 @@ tokens_size_t lex(char *buffer, size_t buff_size, struct token_t ***tokens_p) {
     if((token=lex_symbol(*start)));
     else if((token=lex_boolean(start)));
     else if((token=lex_string(start)));
-    else if((token=lex_number(start)));
+    else if((token=lex_digits(start)));
     if(!token) exit(160);
     *tokens_p=realloc(*tokens_p, (++total)*sizeof(struct token_t*));
     *(*tokens_p+total-1)=token;

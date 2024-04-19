@@ -8,12 +8,12 @@ target_include_directories(${EXECUTABLE} PUBLIC ${INCLUDE_DIR})
 target_sources(${EXECUTABLE} PUBLIC ${SOURCE_DIRECTORY}/${EXECUTABLE}.c)
 
 add_library(json_parser SHARED
-    source/api.c
-    source/lexer.c
-    source/io.c
-    source/parser.c
-    source/token.c
-    source/json.c
+  source/lexer.c
+  source/io.c
+  source/token.c
+  #source/parser.c
+  #source/api.c
+  #source/json.c
 )
 
 target_include_directories(json_parser PRIVATE ${INCLUDE_DIR})

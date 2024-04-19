@@ -1,20 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <json.h>
-#include <api.h>
+#include <token.h>
+#include <lexer.h>
+#include <io.h>
 
 int main(int argc, char **args) {
   if(argc != 2) {
     exit(80);
   }
-  struct json_object_t *object=json_to_object(args[1]);
+
+  struct token_t **tokens=0;
+  char *buff=0;
+  size_t size=read_from_file(args[1], &buff);
+  printf("%p(%ld)\n", buff, size);
+  size_t total=lex(buff, size, &tokens); 
+  printf_tokens(tokens, total, printf_token);
+  free(buff);
+
+  //printf_tokens(tokens, token_size, printf_token);
+
+  //struct json_object_t *object=json_to_object(args[1]);
   //printf_object(*object, 0);
-  printf("%d\n", get_bool(object, "kind"));
-  printf("%d\n", get_int(object, "xxxx"));
-  printf_object(*get_object(object, "pageInfo"), 0);
-  printf("%d\n", get_int(get_object(object, "pageInfo"), "totalResults"));
-  printf_object(*get_array_object_element(object, "items", 0), 0);
-  // printf("%d\n", get_int(get_array_object_element(object, "items", 0), "xxxx"));
-  free_json_object(object);
+  //printf_array(*get_array(object, "items"), 0);
+  //printf("%d\n", get_int(get_array_object_element(object, "items", 0), "xxxx"));
+  //free_json_object(object);
   return EXIT_SUCCESS;
 }

@@ -8,13 +8,23 @@ enum json_value_type_t {
   J_OBJECT
   ,J_ARRAY
   ,J_STRING
-  ,J_INT
+  ,J_NUMBER
   ,J_BOOL
 };
 
-struct json_int_t {
-  int value;
+enum json_number_type_t {
+  J_P_NUMBER
+  ,J_N_NUMBER
+  ,J_FRACTION
+  ,J_EXP
+}
+
+
+struct json_number_t {
+  char *value;
+  enum json_number_type_t type; 
 };
+
 
 struct json_bool_t {
   bool boolean;

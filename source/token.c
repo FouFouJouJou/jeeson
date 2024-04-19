@@ -23,6 +23,16 @@ char *token_type_to_string(enum token_type_t type) {
       return "COMMA";
     case COLON:
       return "COLON";
+    case DOT:
+      return "DOT";
+    case EXP_UP:
+      return "E";
+    case EXP_LOW:
+      return "e";
+    case PLUS:
+      return "+";
+    case MINUS:
+      return "-";
     case NOT_SUPPORTED:
       return "NOT_SUPPORTED";
     }
@@ -53,6 +63,21 @@ enum token_type_t symbol_to_token_type(char literal) {
     case ',':
       result=COMMA;
       break;
+    case '+':
+      result=PLUS;
+      break;
+    case '-':
+      result=MINUS;
+      break;
+    case 'e':
+      result=EXP_LOW;
+      break;
+    case 'E':
+      result=EXP_UP;
+      break;
+    case '.':
+      result=DOT;
+      break;
     default:
       result=NOT_SUPPORTED;
       break;
@@ -62,6 +87,11 @@ enum token_type_t symbol_to_token_type(char literal) {
 
 void printf_token(struct token_t token) {
   printf("(%s, %s)\n", token_type_to_string(token.type), token.literal);
+}
+
+void printf_tokens(struct token_t **tokens, size_t size, void (*printf_function)(struct token_t token)) {
+  for(int i=0; i<size; ++i)
+    printf_function(**(tokens+i));
 }
 
 void free_token(struct token_t *token) {
