@@ -22,6 +22,7 @@ enum token_type_t {
   ,EXP_UP
   ,PLUS
   ,MINUS
+  ,NULL_
   ,NOT_SUPPORTED
 };
 

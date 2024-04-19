@@ -33,6 +33,8 @@ char *token_type_to_string(enum token_type_t type) {
       return "PLUS";
     case MINUS:
       return "MINUS";
+    case NULL_:
+      return "NULL";
     case NOT_SUPPORTED:
       return "NOT_SUPPORTED";
     }
