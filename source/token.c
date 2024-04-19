@@ -26,13 +26,13 @@ char *token_type_to_string(enum token_type_t type) {
     case DOT:
       return "DOT";
     case EXP_UP:
-      return "E";
+      return "Exponential";
     case EXP_LOW:
-      return "e";
+      return "Exponential";
     case PLUS:
-      return "+";
+      return "PLUS";
     case MINUS:
-      return "-";
+      return "MINUS";
     case NOT_SUPPORTED:
       return "NOT_SUPPORTED";
     }

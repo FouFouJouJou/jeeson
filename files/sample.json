@@ -4,5 +4,5 @@
     "nextPageToken": "CAUQAA",
     "regionCode": "NL",
     "pageInfo": {"totalResults": 1000000, "resultsPerPage": 5},
-    "items": [20.2, 10.10, 30.203]
+    "items": [20.2, 10.10, 30.203, 20e-34]
 }
