@@ -29,12 +29,12 @@ struct token_t *lex_string(char *input) {
 }
 
 struct token_t *lex_digits(char *input) {
-  if(*input == '0') exit(161);
   struct token_t *token=0;
   char *digits="0123456789", *start=input;
   size_t total=strspn(start, digits);
   if(total==0) goto out;
   token=literal_to_token(input, total, NUMBER);
+  printf("%d\n", total);
   out:
     return token;
 }
@@ -80,6 +80,7 @@ tokens_size_t lex(char *buffer, size_t buff_size, struct token_t ***tokens_p) {
     else if(token=lex_symbol(*start));
     else if(token=lex_boolean(start));
     else if(token=lex_string(start));
+    //else if(token=lex_zero(start));
     else if(token=lex_digits(start));
     if(!token) exit(160);
     *tokens_p=realloc(*tokens_p, (++total)*sizeof(struct token_t*));

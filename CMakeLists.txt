@@ -11,9 +11,9 @@ add_library(json_parser SHARED
   source/lexer.c
   source/io.c
   source/token.c
-  #source/parser.c
+  source/parser.c
   #source/api.c
-  #source/json.c
+  source/json.c
 )
 
 target_include_directories(json_parser PRIVATE ${INCLUDE_DIR})

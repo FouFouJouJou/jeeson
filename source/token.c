@@ -88,7 +88,7 @@ enum token_type_t symbol_to_token_type(char literal) {
 }
 
 void printf_token(struct token_t token) {
-  printf("(%s, %s)\n", token_type_to_string(token.type), token.literal);
+  printf("(%s, %s, %d)\n", token_type_to_string(token.type), token.literal, token.length);
 }
 
 void printf_tokens(struct token_t **tokens, size_t size, void (*printf_function)(struct token_t token)) {

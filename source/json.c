@@ -32,6 +32,16 @@ void printf_array(struct json_array_t array, uint8_t level) {
   printf("]\n");
 }
 
+char *json_number_type_to_string(enum json_number_type_t type) {
+  switch(type) {
+    case J_DIGITS:
+      return "J_DIGITS";
+    case J_FRACTION:
+      return "J_FRACTION";
+    case J_EXP:
+      return "J_EXP";
+  }
+}
 void printf_json_value(struct json_value_t json_value, uint8_t level) {
   switch(json_value.type) {
     case J_STRING:
@@ -40,8 +50,9 @@ void printf_json_value(struct json_value_t json_value, uint8_t level) {
     case J_BOOL:
       printf("%d\n", ((struct json_bool_t*)(json_value.data))->boolean);
       break;
-    case J_INT:
-      printf("%d\n", ((struct json_int_t*)(json_value.data))->value);
+    case J_NUMBER:
+      struct json_number_t *number=(struct json_number_t*)(json_value.data);
+      printf("%s(%s, %s)\n", number->value, json_number_type_to_string(number->type), number->sign == true ? "negative" : "positive");
       break;
     case J_OBJECT:
       printf_object(*(struct json_object_t*)(json_value.data), level+2);
@@ -63,8 +74,9 @@ void free_json_bool(struct json_bool_t *boolean) {
   free(boolean);
 }
 
-void free_json_int(struct json_int_t *integer) {
-  free(integer);
+void free_json_number(struct json_number_t *number) {
+  free(number->value);
+  free(number);
 }
 
 void free_json_array(struct json_array_t *array) {
@@ -82,8 +94,8 @@ void free_json_value(struct json_value_t *value) {
     case J_BOOL:
       free_json_bool((struct json_bool_t*)value->data);
       break;
-    case J_INT:
-      free_json_int((struct json_int_t*)value->data);
+    case J_NUMBER:
+      free_json_number((struct json_number_t*)value);
       break;
     case J_OBJECT:
       free_json_object((struct json_object_t*)value->data);
@@ -117,8 +129,8 @@ char *json_value_type_to_string(enum json_value_type_t type) {
       return "J_ARRAY";
     case J_STRING:
       return "J_STRING";
-    case J_INT:
-      return "J_INT";
+    case J_NUMBER:
+      return "J_NUMBER";
     default:
       exit(29);
   }
@@ -130,9 +142,11 @@ struct json_bool_t *create_json_bool(bool boolean) {
   return json_bool;
 }
 
-struct json_int_t *create_json_int(int integer) {
-  struct json_int_t *json_number=malloc(sizeof(struct json_int_t));
-  json_number->value=integer;
+struct json_number_t *create_json_number(char *value, enum json_number_type_t type, bool sign) {
+  struct json_number_t *json_number=malloc(sizeof(struct json_number_t));
+  json_number->value=value;
+  json_number->type=type;
+  json_number->sign=sign;
   return json_number;
 }
 

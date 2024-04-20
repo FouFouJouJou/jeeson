@@ -3,6 +3,7 @@
 #include <token.h>
 #include <lexer.h>
 #include <io.h>
+#include <parser.h>
 
 int main(int argc, char **args) {
   if(argc != 2) {
@@ -12,9 +13,7 @@ int main(int argc, char **args) {
   struct token_t **tokens=0;
   char *buff=0;
   size_t size=read_from_file(args[1], &buff);
-  printf("%p(%ld)\n", buff, size);
-  size_t total=lex(buff, size, &tokens); 
-  printf_tokens(tokens, total, printf_token);
+  printf_object(*parse(buff, size), 0);
   free(buff);
 
   //printf_tokens(tokens, token_size, printf_token);

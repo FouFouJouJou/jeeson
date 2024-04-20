@@ -13,18 +13,16 @@ enum json_value_type_t {
 };
 
 enum json_number_type_t {
-  J_P_NUMBER
-  ,J_N_NUMBER
+  J_DIGITS
   ,J_FRACTION
   ,J_EXP
-}
-
+};
 
 struct json_number_t {
   char *value;
+  bool sign;
   enum json_number_type_t type; 
 };
-
 
 struct json_bool_t {
   bool boolean;
