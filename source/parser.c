@@ -5,63 +5,48 @@
 #include <parser.h>
 
 #define YANK(tokens) *(tokens)++
-#define ASSERT_T(tokens, type_check) assert((*tokens)->type == type_check);
+#define ASSERT_T(tokens, type_check) assert((*tokens)->type == type_check)
 
 
 struct json_number_t *parse_number(struct token_t ***tokens) {
   struct json_number_t *result=calloc(1, sizeof(struct json_number_t));
-  size_t length=0;
-  char *digits=0, *fraction=0, *exp=0,
-       minus='-', plus='+', e='E', dot='.', sign=plus;
-  ASSERT_T(*tokens, NUMBER)
+  ASSERT_T(*tokens, NUMBER);
   struct token_t *token=YANK(*tokens);
   if(*(token->literal) == '0' && token->length != 1) exit(199);
   result->type=J_DIGITS;
-  digits=token->literal;
-  length+=token->length;
-  result->value=realloc(result->value, sizeof(char)*(length+1));
+  result->digits=realloc(result->digits, sizeof(char)*(token->length+1));
+  strncpy(result->digits, token->literal, token->length);
+  result->digits[token->length]='\0';
   if((**tokens)->type == DOT) {
-    YANK(*tokens);
     result->type=J_FRACTION;
-    length+=1;
+    YANK(*tokens);
     ASSERT_T(*tokens, NUMBER);
     token=YANK(*tokens);
-    length+=token->length;
-    fraction=token->literal;
+    result->fraction=realloc(result->fraction, sizeof(char)*(token->length+1));
+    strncpy(result->fraction, token->literal, token->length);
+    result->fraction[token->length]='\0';
   }
-
   if((**tokens)->type == EXP_LOW || (**tokens)->type == EXP_UP) {
+    result->type=J_EXP;
     YANK(*tokens);
-    length+=1;
     assert((**tokens)->type == MINUS || (**tokens)->type == PLUS || (**tokens)->type == NUMBER);
     token=YANK(*tokens);
-    if(token->type == MINUS) {
-      sign=minus;
-      ASSERT_T(*tokens, NUMBER);
+    if(token->type == MINUS || token->type == PLUS) {
+      result->exp_sign=token->type == MINUS ? 1 : 0;
       token=YANK(*tokens);
-      length+=token->length;
     }
-    else if(token->type == PLUS) {
-      sign=plus;
-      ASSERT_T(*tokens, NUMBER);
-      token=YANK(*tokens);
-      length+=token->length;
-    }
-    if(token->type == NUMBER) {
-      exp=token->literal;
-      length+=token->length;
-      YANK(*tokens);
-    }
-    result->type=J_EXP;
+    assert(token->type == NUMBER);
+    result->exp=realloc(result->exp, sizeof(char)*(token->length+1));
+    strncpy(result->exp, token->literal, token->length);
+    result->exp[token->length]='\0';
   }
-  printf("%s.%se%c%s(%d)\n", digits, fraction, sign, exp, length);
   return result;
 }
 
 struct json_number_t *parse_signed_number(struct token_t ***tokens) {
   YANK(*tokens);
   struct json_number_t *result=parse_number(tokens);
-  result->sign=1;
+  result->number_sign=1;
   return result;
 }
 
@@ -97,6 +82,7 @@ struct json_object_t *parse(char *buff, size_t size) {
   tokens_size_t read_tokens=lex(buff, size, &tokens);
   if((YANK(tokens))->type != LEFT_CURLY) exit(68);
   struct json_object_t *object=parse_object(&tokens, read_tokens);
+  printf("Done\n");
   tokens-=read_tokens;
   for(int i=0; i<read_tokens; ++i) free_token(*(tokens+i));
   free(tokens);
@@ -120,11 +106,11 @@ struct json_array_t *parse_array(struct token_t ***tokens, size_t size) {
 
 struct json_object_t *parse_object(struct token_t ***tokens, size_t size) {
   struct json_object_t *object=calloc(1, sizeof(struct json_object_t));
-  object->size=0;
   while((**tokens)->type != RIGHT_CURLY) {
     if((**tokens)->type == COMMA) YANK((*tokens));
     struct token_t *key=YANK((*tokens));
     struct token_t *colon=YANK((*tokens));
+    assert(colon->type == COLON);
     struct json_string_t *json_key=create_json_string(key->literal, key->length);
     struct json_value_t *json_value=parse_value(tokens, size);
     object->size+=1;

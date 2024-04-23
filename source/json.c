@@ -52,7 +52,15 @@ void printf_json_value(struct json_value_t json_value, uint8_t level) {
       break;
     case J_NUMBER:
       struct json_number_t *number=(struct json_number_t*)(json_value.data);
-      printf("%s(%s, %s)\n", number->value, json_number_type_to_string(number->type), number->sign == true ? "negative" : "positive");
+      printf("%s%s.%se%s%s (%s, %s)\n", 
+	number->number_sign ? "-" : "+"
+        ,number->digits
+	, number->fraction
+	, number->exp_sign ? "-" : "+"
+	, number->exp
+	, json_number_type_to_string(number->type)
+	, number->number_sign == true ? "negative" : "positive"
+      );
       break;
     case J_OBJECT:
       printf_object(*(struct json_object_t*)(json_value.data), level+2);
@@ -75,7 +83,9 @@ void free_json_bool(struct json_bool_t *boolean) {
 }
 
 void free_json_number(struct json_number_t *number) {
-  free(number->value);
+  free(number->digits);
+  free(number->fraction);
+  free(number->exp);
   free(number);
 }
 
@@ -140,14 +150,6 @@ struct json_bool_t *create_json_bool(bool boolean) {
   struct json_bool_t *json_bool=malloc(sizeof(struct json_bool_t));
   json_bool->boolean=boolean;
   return json_bool;
-}
-
-struct json_number_t *create_json_number(char *value, enum json_number_type_t type, bool sign) {
-  struct json_number_t *json_number=malloc(sizeof(struct json_number_t));
-  json_number->value=value;
-  json_number->type=type;
-  json_number->sign=sign;
-  return json_number;
 }
 
 struct json_string_t *create_json_string(char *string, size_t size) {

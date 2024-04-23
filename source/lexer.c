@@ -34,7 +34,6 @@ struct token_t *lex_digits(char *input) {
   size_t total=strspn(start, digits);
   if(total==0) goto out;
   token=literal_to_token(input, total, NUMBER);
-  printf("%d\n", total);
   out:
     return token;
 }

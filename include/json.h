@@ -19,8 +19,12 @@ enum json_number_type_t {
 };
 
 struct json_number_t {
-  char *value;
-  bool sign;
+  char *digits;
+  char *fraction;
+  char *exp;
+
+  bool number_sign;
+  bool exp_sign;
   enum json_number_type_t type; 
 };
 

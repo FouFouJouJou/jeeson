@@ -1,3 +1,7 @@
 {
-    "items": e80
+    "item": 2,
+    "items": -2e+80
+    "items": [
+	"string", 20, 20.1
+    ]
 }
