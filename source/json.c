@@ -32,16 +32,6 @@ void printf_array(struct json_array_t array, uint8_t level) {
   printf("]\n");
 }
 
-char *json_number_type_to_string(enum json_number_type_t type) {
-  switch(type) {
-    case J_DIGITS:
-      return "J_DIGITS";
-    case J_FRACTION:
-      return "J_FRACTION";
-    case J_EXP:
-      return "J_EXP";
-  }
-}
 void printf_json_value(struct json_value_t json_value, uint8_t level) {
   switch(json_value.type) {
     case J_STRING:
@@ -52,13 +42,12 @@ void printf_json_value(struct json_value_t json_value, uint8_t level) {
       break;
     case J_NUMBER:
       struct json_number_t *number=(struct json_number_t*)(json_value.data);
-      printf("%s%s.%se%s%s (%s, %s)\n", 
+      printf("%s%s.%se%s%s (%s)\n", 
 	number->number_sign ? "-" : "+"
         ,number->digits
 	, number->fraction
 	, number->exp_sign ? "-" : "+"
 	, number->exp
-	, json_number_type_to_string(number->type)
 	, number->number_sign == true ? "negative" : "positive"
       );
       break;
@@ -83,17 +72,10 @@ void free_json_bool(struct json_bool_t *boolean) {
 }
 
 void free_json_number(struct json_number_t *number) {
-  free(number->digits);
-  free(number->fraction);
-  free(number->exp);
+  if(number->digits) free(number->digits);
+  if(number->fraction) free(number->fraction);
+  if(number->exp) free(number->exp);
   free(number);
-}
-
-void free_json_array(struct json_array_t *array) {
-  for(int i=0; i<array->size; ++i) {
-    free_json_value(array->elements[i]);
-  }
-  free(array);
 }
 
 void free_json_value(struct json_value_t *value) {
@@ -105,7 +87,7 @@ void free_json_value(struct json_value_t *value) {
       free_json_bool((struct json_bool_t*)value->data);
       break;
     case J_NUMBER:
-      free_json_number((struct json_number_t*)value);
+      free_json_number((struct json_number_t*)value->data);
       break;
     case J_OBJECT:
       free_json_object((struct json_object_t*)value->data);
@@ -118,6 +100,14 @@ void free_json_value(struct json_value_t *value) {
   }
   free(value); 
 }
+
+void free_json_array(struct json_array_t *array) {
+  for(int i=0; i<array->size; ++i) {
+    free_json_value(array->elements[i]);
+  }
+  free(array);
+}
+
 
 void free_json_object(struct json_object_t *object) {
   for(int i=0; i<object->size; ++i) {

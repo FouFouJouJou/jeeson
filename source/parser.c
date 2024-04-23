@@ -13,12 +13,10 @@ struct json_number_t *parse_number(struct token_t ***tokens) {
   ASSERT_T(*tokens, NUMBER);
   struct token_t *token=YANK(*tokens);
   if(*(token->literal) == '0' && token->length != 1) exit(199);
-  result->type=J_DIGITS;
   result->digits=realloc(result->digits, sizeof(char)*(token->length+1));
   strncpy(result->digits, token->literal, token->length);
   result->digits[token->length]='\0';
   if((**tokens)->type == DOT) {
-    result->type=J_FRACTION;
     YANK(*tokens);
     ASSERT_T(*tokens, NUMBER);
     token=YANK(*tokens);
@@ -27,7 +25,6 @@ struct json_number_t *parse_number(struct token_t ***tokens) {
     result->fraction[token->length]='\0';
   }
   if((**tokens)->type == EXP_LOW || (**tokens)->type == EXP_UP) {
-    result->type=J_EXP;
     YANK(*tokens);
     assert((**tokens)->type == MINUS || (**tokens)->type == PLUS || (**tokens)->type == NUMBER);
     token=YANK(*tokens);
@@ -82,7 +79,6 @@ struct json_object_t *parse(char *buff, size_t size) {
   tokens_size_t read_tokens=lex(buff, size, &tokens);
   if((YANK(tokens))->type != LEFT_CURLY) exit(68);
   struct json_object_t *object=parse_object(&tokens, read_tokens);
-  printf("Done\n");
   tokens-=read_tokens;
   for(int i=0; i<read_tokens; ++i) free_token(*(tokens+i));
   free(tokens);
