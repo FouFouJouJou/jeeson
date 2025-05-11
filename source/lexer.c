@@ -20,9 +20,13 @@ struct token_t *literal_to_token(char *literal, size_t literal_size, enum token_
 
 struct token_t *lex_string(char *input) {
   struct token_t *token=0;
-  char *start=input, *delims="\"";
+  char *start=input, *delims="\"\0";
   if (*start != '"') goto out;
   size_t letters=strcspn(start+1, delims);
+  if (start[1+letters] != '\"') {
+    fprintf(stderr, "[ERROR] string literal missing closing quotes");
+    exit(67);
+  }
   token=literal_to_token(start+1, letters, STRING_LITERAL);
   out:
     return token;

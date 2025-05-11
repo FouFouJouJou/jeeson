@@ -26,6 +26,7 @@ struct json_number_t {
   char *fraction;
   char *exp;
 
+  /* true => negative, false => positive */
   bool number_sign;
   bool exp_sign;
 };

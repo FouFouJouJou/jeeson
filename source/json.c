@@ -15,7 +15,7 @@ void printf_object(struct json_object_t object, uint8_t level) {
   printf("{\n");
   for (int i=0; i<object.size; ++i) {
     insert_spaces(level+INC);
-    printf("%s: ", object.keys[i]->literal); 
+    printf("%s: ", object.keys[i]->literal);
     printf_json_value(*(object.values[i]), level);
   }
   insert_spaces(level);

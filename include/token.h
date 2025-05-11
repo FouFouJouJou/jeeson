@@ -27,6 +27,10 @@ enum token_type_t {
 };
 
 struct token_t {
+  /* TODO: store token line and character position in file */
+  struct position {
+    uint8_t x, y;
+  } pos;
   enum token_type_t type;
   char *literal;
   size_t length;

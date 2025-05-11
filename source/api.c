@@ -24,14 +24,15 @@ size_t has_key(struct json_object_t *object, char *key) {
 double json_number_to_number(struct json_number_t *json_number) {
   double digits=atof(json_number->digits);
   double fraction=0;
-  double expo=0;
+  double expo=1;
   long power=1;
   if (json_number->fraction) {
     for (int i=0; i<strlen(json_number->fraction); ++i) power*=10;
     fraction=atof(json_number->fraction)/power;
   }
   if (json_number->exp) {
-    expo=exp(atof(json_number->exp));
+    const double coefficient = atof(json_number->exp) * (json_number->exp_sign ? -1 : 1);
+    expo=expl(coefficient);
   }
   return (digits+fraction)*expo;
 }
