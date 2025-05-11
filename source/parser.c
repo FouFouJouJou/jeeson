@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <string.h>
 #include <assert.h>
 #include <lexer.h>
@@ -69,6 +70,8 @@ struct json_value_t *parse_value(struct token_t ***tokens, size_t size) {
     case LEFT_BRACKET:
       return create_json_value((void*)parse_array(tokens, size), J_ARRAY);
     default:
+      const char *message = "[ERROR] token has invalid type %s";
+      fprintf(stderr, message, token_type_to_string(token->type));
       exit(78);
   }
   return 0;
@@ -105,8 +108,15 @@ struct json_object_t *parse_object(struct token_t ***tokens, size_t size) {
   while((**tokens)->type != RIGHT_CURLY) {
     if((**tokens)->type == COMMA) YANK((*tokens));
     struct token_t *key=YANK((*tokens));
+    if (key->type != STRING_LITERAL) {
+      fprintf(stderr, "[ERROR] expected STRING_LITERAL: got %s instead\n", token_type_to_string(key->type));
+      exit(66);
+    }
     struct token_t *colon=YANK((*tokens));
-    assert(colon->type == COLON);
+    if (colon->type != COLON) {
+      fprintf(stderr, "[ERROR] expected COLON: got %s instead\n", token_type_to_string(colon->type));
+      exit(66);
+    }
     struct json_string_t *json_key=create_json_string(key->literal, key->length);
     struct json_value_t *json_value=parse_value(tokens, size);
     object->size+=1;

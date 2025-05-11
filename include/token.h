@@ -33,6 +33,7 @@ struct token_t {
 };
 
 enum token_type_t symbol_to_token_type(char literal);
+char *token_type_to_string(enum token_type_t type);
 void printf_token(struct token_t token);
 void printf_tokens(struct token_t **tokens, size_t size, void (*printf_function)(struct token_t token));
 void free_token(struct token_t *token);
