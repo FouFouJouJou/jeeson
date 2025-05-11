@@ -38,16 +38,16 @@ void printf_json_value(struct json_value_t json_value, uint8_t level) {
       printf("%s\n", ((struct json_string_t*)(json_value.data))->literal);
       break;
     case J_BOOL:
-      printf("%d\n", ((struct json_bool_t*)(json_value.data))->boolean);
+      printf("%s\n", ((struct json_bool_t*)(json_value.data))->boolean ? "true" : "false");
       break;
     case J_NUMBER:
       struct json_number_t *number=(struct json_number_t*)(json_value.data);
-      printf("%s%s.%se%s%s (%s)\n", 
+      printf("%s%s.%se%s%s (%s)\n",
 	number->number_sign ? "-" : "+"
         ,number->digits
-	, number->fraction
+	, number->fraction == NULL ? "0" : number->fraction
 	, number->exp_sign ? "-" : "+"
-	, number->exp
+	, number->exp == NULL ? "0" : number->exp
 	, number->number_sign == true ? "negative" : "positive"
       );
       break;
