@@ -92,7 +92,7 @@ void printf_token(struct token_t token) {
 }
 
 void printf_tokens(struct token_t **tokens, size_t size, void (*printf_function)(struct token_t token)) {
-  for(int i=0; i<size; ++i)
+  for (int i=0; i<size; ++i)
     printf_function(**(tokens+i));
 }
 

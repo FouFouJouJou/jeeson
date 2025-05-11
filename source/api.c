@@ -15,8 +15,8 @@ struct json_object_t *json_to_object(char *file_name) {
 }
 
 size_t has_key(struct json_object_t *object, char *key) {
-  for(int i=0; i<object->size; ++i) {
-    if(!strcmp(object->keys[i]->literal, key)) return i;
+  for (int i=0; i<object->size; ++i) {
+    if (!strcmp(object->keys[i]->literal, key)) return i;
   }
   return -1;
 }
@@ -26,11 +26,11 @@ double json_number_to_number(struct json_number_t *json_number) {
   double fraction=0;
   double expo=0;
   long power=1;
-  if(json_number->fraction) {
-    for(int i=0; i<strlen(json_number->fraction); ++i) power*=10;
+  if (json_number->fraction) {
+    for (int i=0; i<strlen(json_number->fraction); ++i) power*=10;
     fraction=atof(json_number->fraction)/power;
   }
-  if(json_number->exp) {
+  if (json_number->exp) {
     expo=exp(atof(json_number->exp));
   }
   return (digits+fraction)*expo;
@@ -38,7 +38,7 @@ double json_number_to_number(struct json_number_t *json_number) {
 
 struct json_value_t *get(struct json_object_t *object, char *key) {
   size_t index=has_key(object, key);
-  if(index==-1) return 0;
+  if (index==-1) return 0;
   return object->values[index];
 }
 

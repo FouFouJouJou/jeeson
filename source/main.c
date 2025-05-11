@@ -7,7 +7,7 @@
 #include <api.h>
 
 int main(int argc, char **args) {
-  if(argc != 2) {
+  if (argc != 2) {
     exit(80);
   }
   struct json_object_t *object=json_to_object(args[1]);

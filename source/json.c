@@ -6,14 +6,14 @@
 #define INC 2
 
 void insert_spaces(uint8_t level) {
-  for(int i=0; i<level; ++i) {
+  for (int i=0; i<level; ++i) {
     printf(" ");
   }
 }
 
 void printf_object(struct json_object_t object, uint8_t level) {
   printf("{\n");
-  for(int i=0; i<object.size; ++i) {
+  for (int i=0; i<object.size; ++i) {
     insert_spaces(level+INC);
     printf("%s: ", object.keys[i]->literal); 
     printf_json_value(*(object.values[i]), level);
@@ -24,7 +24,7 @@ void printf_object(struct json_object_t object, uint8_t level) {
 
 void printf_array(struct json_array_t array, uint8_t level) {
   printf("[\n");
-  for(int i=0; i<array.size; ++i) {
+  for (int i=0; i<array.size; ++i) {
     insert_spaces(level+INC);
     printf_json_value(*(array.elements[i]), level);
   }
@@ -72,9 +72,9 @@ void free_json_bool(struct json_bool_t *boolean) {
 }
 
 void free_json_number(struct json_number_t *number) {
-  if(number->digits) free(number->digits);
-  if(number->fraction) free(number->fraction);
-  if(number->exp) free(number->exp);
+  if (number->digits) free(number->digits);
+  if (number->fraction) free(number->fraction);
+  if (number->exp) free(number->exp);
   free(number);
 }
 
@@ -102,7 +102,7 @@ void free_json_value(struct json_value_t *value) {
 }
 
 void free_json_array(struct json_array_t *array) {
-  for(int i=0; i<array->size; ++i) {
+  for (int i=0; i<array->size; ++i) {
     free_json_value(array->elements[i]);
   }
   free(array);
@@ -110,7 +110,7 @@ void free_json_array(struct json_array_t *array) {
 
 
 void free_json_object(struct json_object_t *object) {
-  for(int i=0; i<object->size; ++i) {
+  for (int i=0; i<object->size; ++i) {
     free_json_string(object->keys[i]);
     free_json_value(object->values[i]);
   }
