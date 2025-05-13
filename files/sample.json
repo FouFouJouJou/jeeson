@@ -1,7 +1,6 @@
 {
-    "item": 100.20e0,
-    "items": -2e+80,
+    "item": 100,
     "items": [
-	"string", 20, 20.1
+	"string", 20, 20.1, true
     ]
 }

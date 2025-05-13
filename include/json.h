@@ -8,10 +8,12 @@
 #define STRING(x) ((struct json_string_t *)(x))->literal
 #define ARRAY(x) ((struct json_array_t *)(x))
 #define OBJECT(x) ((struct json_object_t *)(x))
+#define NUMBER(x) ((struct json_number_t *)(x))
 #define VALUE_TO_STRING(x) STRING(x->data)
 #define VALUE_TO_ARRAY(x) ARRAY(x->data)
 #define VALUE_TO_OBJECT(x) OBJECT(x->data)
 #define VALUE_TO_BOOL(x) BOOL(x->data)
+#define VALUE_TO_NUMBER(x) NUMBER(x->data)
 
 enum json_value_type_t {
   J_OBJECT
