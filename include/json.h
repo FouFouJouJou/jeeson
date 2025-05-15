@@ -87,5 +87,4 @@ bool get_array_boolean_element(struct json_array_t *arr, uint8_t idx);
 char *get_array_string_element(struct json_array_t *arr, uint8_t idx);
 struct json_object_t *get_array_object_element(struct json_array_t *arr, uint8_t idx);
 struct json_array_t *get_array_array_element(struct json_array_t *arr, uint8_t idx);
-
 #endif
