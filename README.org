@@ -1,5 +1,6 @@
 * Jeeson
-A json parsing library. Nothing special really.
+A json parsing library. Nothing special really. Got a json file you want to use in your program
+and your program is written in C? Well then give this one a go.
 
 * Resource
 the [[https://www.json.org/][json specification]] was the only needed resource to get an implementation up and running.
