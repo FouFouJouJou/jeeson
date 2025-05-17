@@ -11,7 +11,8 @@ int main(int argc, char **args) {
     exit(80);
   }
   struct json_object_t *object=json_to_object(args[1]);
-  struct json_array_t *array = get_array(object, "items");
+  printf_object(*object, 0);
+
   free_json_object(object);
   return EXIT_SUCCESS;
 }
