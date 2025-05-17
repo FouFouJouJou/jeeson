@@ -86,12 +86,12 @@ tokens_size_t lex(char *buffer, size_t buff_size, struct token_t ***tokens_p) {
   while (start < buffer+buff_size-1) {
     struct token_t *token=0;
     start+=strspn(start, delims);
-    if (token=lex_null(start));
-    else if (token=lex_symbol(*start));
-    else if (token=lex_boolean(start));
-    else if (token=lex_string(start));
+    if ((token=lex_null(start)));
+    else if ((token=lex_symbol(*start)));
+    else if ((token=lex_boolean(start)));
+    else if ((token=lex_string(start)));
     //else if (token=lex_zero(start));
-    else if (token=lex_digits(start));
+    else if ((token=lex_digits(start))) {}
     if (!token) exit(160);
     *tokens_p=realloc(*tokens_p, (++total)*sizeof(struct token_t*));
     *(*tokens_p+total-1)=token;

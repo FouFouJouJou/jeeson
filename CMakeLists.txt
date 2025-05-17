@@ -5,6 +5,7 @@ set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(EXECUTABLE main)
 add_executable(${EXECUTABLE})
 
+target_compile_options(${EXECUTABLE} PRIVATE -Wall -Wextra -Wpedantic -Werror -g)
 target_include_directories(${EXECUTABLE} PUBLIC ${INCLUDE_DIR})
 target_sources(${EXECUTABLE} PUBLIC ${SOURCE_DIRECTORY}/${EXECUTABLE}.c)
 add_library(jeeson SHARED

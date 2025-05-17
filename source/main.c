@@ -4,15 +4,18 @@
 #include <lexer.h>
 #include <io.h>
 #include <parser.h>
-#include <api.h>
+#include <json.h>
 
 int main(int argc, char **args) {
   if (argc != 2) {
     exit(80);
   }
   struct json_object_t *object=json_to_object(args[1]);
+<<<<<<< HEAD
   printf_object(*object, 0);
 
+=======
+>>>>>>> origin/main
   free_json_object(object);
   return EXIT_SUCCESS;
 }

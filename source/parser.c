@@ -69,10 +69,11 @@ struct json_value_t *parse_value(struct token_t ***tokens, size_t size) {
       return create_json_value((void*)parse_object(tokens, size), J_OBJECT);
     case LEFT_BRACKET:
       return create_json_value((void*)parse_array(tokens, size), J_ARRAY);
-    default:
+    default: {
       const char *message = "[ERROR] token has invalid type %s";
       fprintf(stderr, message, token_type_to_string(token->type));
       exit(78);
+    }
   }
   return 0;
 }
