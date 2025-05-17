@@ -4,6 +4,17 @@ A json parsing library. Nothing special really.
 * Resource
 [[https://www.json.org/][json specification]] was the only needed resource to get an implementation up and running.
 
+* Instructions
+Building the project requires [[https://command-not-found.com/cmake][cmake]]. It is desirable to create a build directory to have a cleaner file tree.
+My personal choice is almost always =bin=.
+#+begin_src shell
+  mkdir bin
+  cd bin
+  cmake ..
+  make
+  ./main <path_of_json_file>
+#+end_src
+
 * Parser features [6/7]
 - [X] objects
 - [X] arrays
