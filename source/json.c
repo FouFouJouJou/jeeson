@@ -40,7 +40,7 @@ void printf_json_value(struct json_value_t json_value, uint8_t level) {
     case J_BOOL:
       printf("%s\n", ((struct json_bool_t*)(json_value.data))->boolean ? "true" : "false");
       break;
-    case J_NUMBER:
+    case J_NUMBER: {
       struct json_number_t *number=(struct json_number_t*)(json_value.data);
       printf("%s%s.%se%s%s (%s)\n",
 	number->number_sign ? "-" : "+"
@@ -51,6 +51,7 @@ void printf_json_value(struct json_value_t json_value, uint8_t level) {
 	, number->number_sign == true ? "negative" : "positive"
       );
       break;
+    }
     case J_OBJECT:
       printf_object(*(struct json_object_t*)(json_value.data), level+2);
       break;

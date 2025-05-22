@@ -1,0 +1,29 @@
+* Jeeson
+A json parsing library. Nothing special really. Got a json file you want to use in your program
+and your program is written in C? Well then give this one a go.
+
+* Resource
+the [[https://www.json.org/][json specification]] was the only needed resource to get an implementation up and running.
+It is short, concise and has excellent graph visualization to fully grasp the format.
+Easily a 10/10 as far as format grammar documentation goes.
+
+* Instructions
+Building the project requires [[https://command-not-found.com/cmake][cmake]]. It is desirable to create a build directory to have a cleaner file tree.
+My personal choice is almost always =bin=.
+#+begin_src shell
+  mkdir bin
+  cd bin
+  cmake ..
+  make
+  ./main <path_to_json_file>
+#+end_src
+
+* Parser features [6/7]
+- [X] objects
+- [X] arrays
+- [X] string
+- [ ] escape characters and unicode
+- [X] number
+- [X] array
+- [X] boolean
+- [ ] null
