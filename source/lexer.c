@@ -77,8 +77,7 @@ struct token_t *lex_boolean(char *start) {
 struct token_t *lex_null(char *start) {
   struct token_t *token=0;
   if (!strncmp(start, "null", 4)) token=literal_to_token(start, 4, NULL_);
-  out:
-    return token;
+  return token;
 }
 tokens_size_t lex(char *buffer, size_t buff_size, struct token_t ***tokens_p) {
   char *start=buffer, *delims=" \n\r\t";

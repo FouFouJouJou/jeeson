@@ -12,6 +12,9 @@ size_t read_from_file(char *file_name, char **buff) {
   *buff=malloc(sizeof(char)*size);
   rewind(fd);
   size_t bytes_read=fread(*buff, size, 1, fd);
+  if (bytes_read != size) {
+    fprintf(stderr, "[ERROR]: file was not read fully!");
+  }
   fclose(fd);
   return size;
 }

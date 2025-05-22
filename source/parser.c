@@ -18,7 +18,7 @@ struct json_number_t *parse_number(struct token_t ***tokens) {
   strncpy(result->digits, token->literal, token->length);
   result->digits[token->length]='\0';
   if ((**tokens)->type == DOT) {
-    YANK(*tokens);
+    (void) YANK(*tokens);
     ASSERT_T(*tokens, NUMBER);
     token=YANK(*tokens);
     result->fraction=realloc(result->fraction, sizeof(char)*(token->length+1));
@@ -26,7 +26,7 @@ struct json_number_t *parse_number(struct token_t ***tokens) {
     result->fraction[token->length]='\0';
   }
   if ((**tokens)->type == EXP_LOW || (**tokens)->type == EXP_UP) {
-    YANK(*tokens);
+    (void) YANK(*tokens);
     assert((**tokens)->type == MINUS || (**tokens)->type == PLUS || (**tokens)->type == NUMBER);
     token=YANK(*tokens);
     if (token->type == MINUS || token->type == PLUS) {
@@ -42,7 +42,7 @@ struct json_number_t *parse_number(struct token_t ***tokens) {
 }
 
 struct json_number_t *parse_signed_number(struct token_t ***tokens) {
-  YANK(*tokens);
+  (void) YANK(*tokens);
   struct json_number_t *result=parse_number(tokens);
   result->number_sign=1;
   return result;
@@ -94,20 +94,24 @@ struct json_array_t *parse_array(struct token_t ***tokens, size_t size) {
   struct json_array_t *array=calloc(1, sizeof(struct json_array_t));
   array->size=0;
   while ((**tokens)->type != RIGHT_BRACKET) {
-    if ((**tokens)->type == COMMA) YANK((*tokens));
+    if ((**tokens)->type == COMMA) {
+      (void) YANK((*tokens));
+    }
     struct json_value_t *json_value=parse_value(tokens, size);
     array->size+=1;
     array->elements=realloc(array->elements, array->size*sizeof(struct json_value_t *));
     array->elements[array->size-1]=json_value;
   }
-  YANK((*tokens));
+  (void) YANK((*tokens));
   return array;
 }
 
 struct json_object_t *parse_object(struct token_t ***tokens, size_t size) {
   struct json_object_t *object=calloc(1, sizeof(struct json_object_t));
   while ((**tokens)->type != RIGHT_CURLY) {
-    if ((**tokens)->type == COMMA) YANK((*tokens));
+    if ((**tokens)->type == COMMA) {
+      (void) YANK((*tokens));
+    }
     struct token_t *key=YANK((*tokens));
     if (key->type != STRING_LITERAL) {
       fprintf(stderr, "[ERROR] expected STRING_LITERAL: got %s instead\n", token_type_to_string(key->type));
@@ -126,7 +130,7 @@ struct json_object_t *parse_object(struct token_t ***tokens, size_t size) {
     object->keys[object->size-1]=json_key;
     object->values[object->size-1]=json_value;
   }
-  YANK((*tokens));
+  (void) YANK((*tokens));
   return object;
 }
 

@@ -8,6 +8,7 @@
 
 int main(int argc, char **args) {
   if (argc != 2) {
+    /* help(); */
     exit(80);
   }
   struct json_object_t *object=json_to_object(args[1]);

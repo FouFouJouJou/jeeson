@@ -3,7 +3,7 @@ project(jeeson VERSION 1.0 LANGUAGES C)
 set(SOURCE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/source)
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(EXECUTABLE jeeson)
-set(LIB core)
+set(LIB jeecore)
 add_executable(${EXECUTABLE})
 
 target_compile_options(${EXECUTABLE} PRIVATE -Wall -Wextra -Wpedantic -Werror -g)
@@ -17,6 +17,7 @@ add_library(${LIB} SHARED
   source/api.c
   source/json.c
 )
+target_compile_options(${LIB} PRIVATE -Wall -Wextra -Wpedantic -Werror -g)
 
 target_include_directories(${LIB} PRIVATE ${INCLUDE_DIR})
 set_target_properties(${LIB} PROPERTIES VERSION ${PROJECT_VERSION} LIBRARY_OUTPUT_DIRECTORY lib)

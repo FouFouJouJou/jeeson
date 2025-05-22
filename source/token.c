@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <assert.h>
 #include <token.h>
 
 char *token_type_to_string(enum token_type_t type) {
@@ -40,6 +41,7 @@ char *token_type_to_string(enum token_type_t type) {
     case NOT_SUPPORTED:
       return "NOT_SUPPORTED";
     }
+  assert(0 && "UNREACHABLE");
 }
 
 
@@ -94,7 +96,7 @@ void printf_token(struct token_t token) {
 }
 
 void printf_tokens(struct token_t **tokens, size_t size, void (*printf_function)(struct token_t token)) {
-  for (int i=0; i<size; ++i)
+  for (size_t i=0; i<size; ++i)
     printf_function(**(tokens+i));
 }
 
