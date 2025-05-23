@@ -3,8 +3,8 @@ A json parsing library. Nothing special really. Got a json file you want to use 
 and your program is written in C? Well then give this one a go.
 
 * Resource
-the [[https://www.json.org/][json specification]] was the only needed resource to get an implementation up and running.
-It is short, concise and has excellent graph visualization to fully grasp the format.
+The [[https://www.json.org/][json specification]] was the only needed resource to get an implementation up and running.
+It is short and concise, having excellent graph visualization to fully grasp the format.
 Easily a 10/10 as far as format grammar documentation goes.
 
 * Instructions
@@ -18,12 +18,12 @@ My personal choice is almost always =bin=.
   ./main <path_to_json_file>
 #+end_src
 
-* Parser features [6/7]
+* Parser features [6/8]
 - [X] objects
 - [X] arrays
 - [X] string
-- [ ] escape characters and unicode
 - [X] number
 - [X] array
 - [X] boolean
+- [ ] escape characters and unicode
 - [ ] null
