@@ -46,7 +46,7 @@ struct json_value_t *get(struct json_object_t *object, char *key) {
 double get_number(struct json_object_t *object, char *key) {
   struct json_value_t *value=get(object, key);
   if (value == NULL) {
-    return NULL;
+    return 0;
   }
   assert(value->type == J_NUMBER);
   return json_number_to_number((struct json_number_t *)(value->data));
