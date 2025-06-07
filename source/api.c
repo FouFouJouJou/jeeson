@@ -39,41 +39,51 @@ double json_number_to_number(struct json_number_t *json_number) {
 
 struct json_value_t *get(struct json_object_t *object, char *key) {
   ssize_t index=has_key(object, key);
-  if (index == -1) return 0;
+  if (index == -1) return NULL;
   return object->values[index];
 }
 
 double get_number(struct json_object_t *object, char *key) {
   struct json_value_t *value=get(object, key);
-  assert(value != 0);
+  if (value == NULL) {
+    return NULL;
+  }
   assert(value->type == J_NUMBER);
   return json_number_to_number((struct json_number_t *)(value->data));
 }
 
 bool get_bool(struct json_object_t *object, char *key) {
   struct json_value_t *value=get(object, key);
-  assert(value != 0);
+  if (value == NULL) {
+    return NULL;
+  }
   assert(value->type == J_BOOL);
   return VALUE_TO_BOOL(value);
 }
 
 char *get_string(struct json_object_t *object, char *key) {
   struct json_value_t *value=get(object, key);
-  assert(value != 0);
+  if (value == NULL) {
+    return NULL;
+  }
   assert(value->type == J_STRING);
   return VALUE_TO_STRING(value);
 }
 
 struct json_object_t *get_object(struct json_object_t *object, char *key) {
   struct json_value_t *value=get(object, key);
-  assert(value != 0);
+  if (value == NULL) {
+    return NULL;
+  }
   assert(value->type == J_OBJECT);
   return VALUE_TO_OBJECT(value);
 }
 
 struct json_array_t *get_array(struct json_object_t *object, char *key) {
   struct json_value_t *value=get(object, key);
-  assert(value != 0);
+  if (value == NULL) {
+    return NULL;
+  }
   assert(value->type == J_ARRAY);
   return VALUE_TO_ARRAY(value);
 }
