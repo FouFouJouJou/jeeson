@@ -34,10 +34,14 @@ To load a json file into your program and then print it.
   printf_object(*object, 0);
 #+end_src
 
-To check if a json object contains a key. =has_key= returns the index of the key that can then be used to index into the internal key structure.
+To check if a json object contains a key. the =has_key= function returns the index of the key that can then be used to index into the internal key structure.
 #+begin_src c
   struct json_object_t *object=json_to_object(args[1]);
   char *key_to_look_for = "mama";
   ssize_t idx = has_key(object, mama);
-  printf("index: %d\n", idx);
+  if (idx == -1) {
+    printf("(◞‸◟)\n");
+  }else {
+    printf("( ˶ˆᗜˆ˵ )\n");
+  }
 #+end_src
