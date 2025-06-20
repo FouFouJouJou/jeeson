@@ -30,13 +30,13 @@ My personal choice is almost always =bin=.
 * Documentation
 - To load a json file into your program and then print it.
 #+begin_src c
-  struct json_object_t *object=json_to_object(args[1]);
+  struct json_object_t *object=json_to_object(path_to_json);
   printf_object(*object, 0);
 #+end_src
 
 - To check if a json object contains a key. the =has_key= function returns the index of the key that can then be used to index into the internal key structure.
 #+begin_src c
-  struct json_object_t *object=json_to_object(args[1]);
+  struct json_object_t *object=json_to_object(path_to_json);
   char *key_to_look_for = "your";
   ssize_t idx = has_key(object, key_to_look_for);
   if (idx == -1) {
@@ -48,7 +48,7 @@ My personal choice is almost always =bin=.
 
 - In order to get the value associate with a key in an object, one needs to know in advance what the type of the value is.
 #+begin_src c
-  struct json_object_t *object=json_to_object(args[1]);
+  struct json_object_t *object=json_to_object(path_to_json);
   char *key = "your";
 
   // fetching string
@@ -68,8 +68,7 @@ My personal choice is almost always =bin=.
 
 - Indexing values inside array values is similar to fetching values associated with keys in an object, any time you want to get a value from JSON you have to know in advance what the type of that data is to use the corresponding function.
 #+begin_src c
-  struct json_object_t *object=json_to_object(args[1]);
-
+  struct json_object_t *object=json_to_object(path_to_json);
   char *key = "your";
 
   struct json_array_t *mamas = get_array(object, key);
@@ -87,4 +86,11 @@ My personal choice is almost always =bin=.
 
   // fetching object element
   struct json_object_t *kids = get_array_object_element(mamas, kids_idx);
+#+end_src
+
+- Any memory, inevitably, must be freed.
+#+begin_src c
+  struct json_object_t *object=json_to_object(path_to_json);
+  // ...
+  free_json_object(object);
 #+end_src
