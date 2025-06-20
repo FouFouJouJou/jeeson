@@ -15,7 +15,6 @@ My personal choice is almost always =bin=.
   cd bin
   cmake ..
   make
-  ./main <path_to_json_file>
 #+end_src
 
 * Parser features [6/8]
@@ -27,3 +26,10 @@ My personal choice is almost always =bin=.
 - [X] boolean
 - [ ] escape characters and unicode
 - [ ] null
+
+* Documentation
+- To load a json file into your program and then print it.
+#+begin_src c
+  struct json_object_t *object=json_to_object(args[1]);
+  printf_object(*object, 0);
+#+end_src
