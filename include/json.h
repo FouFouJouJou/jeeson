@@ -1,6 +1,7 @@
 #ifndef __JSON_H__
 #define __JSON_H__
 #include <stdlib.h>
+#include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
 

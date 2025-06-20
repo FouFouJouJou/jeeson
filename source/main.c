@@ -12,7 +12,7 @@ int main(int argc, char **args) {
     exit(80);
   }
   struct json_object_t *object=json_to_object(args[1]);
-  printf_object(*object, 0);
+  printf("%ld\n", has_key(object, "key"));
 
   free_json_object(object);
   return EXIT_SUCCESS;
