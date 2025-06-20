@@ -62,6 +62,7 @@ struct json_array_t {
   size_t size;
 };
 
+ssize_t has_key(struct json_object_t *object, char *key);
 void printf_object(struct json_object_t object, uint8_t level);
 void printf_array(struct json_array_t array, uint8_t level);
 void printf_json_value(struct json_value_t json_value, uint8_t level);
