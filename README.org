@@ -48,20 +48,43 @@ My personal choice is almost always =bin=.
 
 - In order to get the value associate with a key in an object, one needs to know in advance what the type of the value is.
 #+begin_src c
-    struct json_object_t *object=json_to_object(args[1]);
-    char *key = "your";
+  struct json_object_t *object=json_to_object(args[1]);
+  char *key = "your";
 
-    // fetching string
-    char *mama = get_string(object, key);
+  // fetching string
+  char *mama = get_string(object, key);
 
-    // fetching number
-    double weight = get_number(object, key);
+  // fetching number
+  double weight = get_number(object, key);
 
-    // fetching array element
-    struct json_array_t *mamas = get_array(object, key);
-    printf_array(*array, 0);
+  // fetching array element
+  struct json_array_t *mamas = get_array(object, key);
+  printf_array(*array, 0);
 
-    // fetching object element
-    struct json_object_t *obj = get_object(object, key);
-    printf_object(*obj, 0);
+  // fetching object element
+  struct json_object_t *obj = get_object(object, key);
+  printf_object(*obj, 0);
+#+end_src
+
+- Indexing values inside array values is similar to fetching values associated with keys in an object, any time you want to get a value from JSON you have to know in advance what the type of that data is to use the corresponding function.
+#+begin_src c
+  struct json_object_t *object=json_to_object(args[1]);
+
+  char *key = "your";
+
+  struct json_array_t *mamas = get_array(object, key);
+  printf_array(*array, 0);
+
+  size_t name_idx = 0;
+  size_t weight_idx = 1;
+  size_t kids_idx = 2;
+
+  // fetching string element
+  char *name = get_array_string_element(mamas, name_idx);
+
+  // fetching an infinitely big number element
+  long double weight = get_array_number_element(mamas, weight_idx);
+
+  // fetching object element
+  struct json_object_t *kids = get_array_object_element(mamas, kids_idx);
 #+end_src
